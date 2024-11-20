@@ -5,6 +5,7 @@ namespace SupermarketReceipt.Test
 {
     public class SupermarketTests
     {
+        private readonly Product toothPaste;
         private readonly Product toothbrush;
         private readonly Product apples;
         private readonly ShoppingCart cart;
@@ -13,6 +14,7 @@ namespace SupermarketReceipt.Test
 
         public SupermarketTests()
         {
+            toothPaste = new Product("toothpaste", ProductUnit.Each);
             toothbrush = new Product("toothbrush", ProductUnit.Each);
             apples = new Product("apples", ProductUnit.Kilo);
 
@@ -177,8 +179,22 @@ namespace SupermarketReceipt.Test
             Assert.Equal(3.0, receipt.GetTotalPrice());
         }
         
+        [Fact(Skip = "Not implemented yet")]
+        public void Combo()
+        {
+            cart.AddItemQuantity(toothbrush, 1.0);
+            cart.AddItemQuantity(toothPaste, 2.0);
+            
+            // How do I do this?
+            // teller.AddSpecialOffer(toothbrush, new ComboOffer(toothPaste, 2.0));
+            
+            Receipt receipt = teller.ChecksOutArticlesFrom(cart);
+            Assert.Equal(2.0, receipt.GetTotalPrice());
+        }
+        
         private void PopulateCatalog()
         {
+            catalog.AddProduct(toothPaste, 1.0);
             catalog.AddProduct(toothbrush, 0.99);
             catalog.AddProduct(apples, 1.99);
         }
